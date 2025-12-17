@@ -50,7 +50,7 @@ def brew(
     - Extras erhöhen SG und geben besondere Effekte (per Rezept).
     - Kritische Regeln:
         * Nat 20: Legendär → Dauer doppelt, keine Nebenwirkung.
-        * Nat 1 : Katastrophe → Explosion, 1W6 Feuerschaden im 5ft-Radius (Flavour-Text).
+        * Nat 1 : Katastrophe → Explosion, 1W6 Feuerschaden im 5ft-Radius.
         * Sehr hoch (>= SG+5): Inspiration zusätzlich.
         * Sehr niedrig (<= SG-5): Nebenwirkung verdoppelt + zufälliger Extraeffekt aus anderem Rezept.
     """
@@ -149,3 +149,21 @@ def brew(
 
     # Krit 20 bei Fehlschlag ist per obiger Logik unmöglich; 1 wurde oben behandelt.
     return result
+
+#Helfer
+from .recipes import EXTRAS
+
+def list_allowed_extras() -> list[str]:
+    """Gibt die erlaubten Extra-Schlüssel (für Eingaben) zurück."""
+    return sorted(EXTRAS.keys())
+
+def normalize_extras(user_input: str) -> set[str]:
+    """
+    Wandelt einen vom Benutzer eingegebenen String in ein Set erlaubter Extras um.
+    Trennt nach Leerzeichen oder Komma; trimmt; validiert.
+    """
+    raw = [x.strip().lower() for x in user_input.replace(",", " ").split()]
+    allowed = set(list_allowed_extras())
+    picked = {x for x in raw if x in allowed}
+    unknown = [x for x in raw if x and x not in allowed]
+    return picked, unknown
