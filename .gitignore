@@ -1,0 +1,19 @@
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# VS Code / Codespaces
+.vscode/
+.history/
+*.code-workspace
+
+# Devcontainer (optional – wenn du ihn später nutzt, kannst du das wieder entfernen)
+.devcontainer/
+
+# Sonstiges
+.DS_Store
+Thumbs.db
+*README.md
